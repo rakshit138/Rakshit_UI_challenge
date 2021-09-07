@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new_sharp),
           onPressed: () {},
-          color: Colors.red,
+          color: kActiveCardColour,
           iconSize: 18,
         ),
       ),
