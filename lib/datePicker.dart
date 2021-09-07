@@ -31,7 +31,7 @@ class _DatePickerPageState extends State<DatePickerPage> {
           ),
           child: CupertinoDatePicker(
             backgroundColor: Colors.transparent,
-            minimumYear: 1950,
+            minimumYear: 1960,
             maximumYear: DateTime.now().year,
             initialDateTime: dateTime,
             mode: CupertinoDatePickerMode.date,

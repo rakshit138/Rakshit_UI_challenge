@@ -36,6 +36,10 @@ DateTime dt = DateTime.now();
 int wt = 50;
 int ht = 160;
 
+int minWT = 20;
+int maxWT = 120;
+int step = 1;
+
 enum Height {
   feet,
   cm,
@@ -302,6 +306,10 @@ class __WeightSliderState extends State<_WeightSlider> {
                     onPressed: () {
                       setState(() {
                         selectedWeight = Weight.pound;
+                        _currentValue = 144;
+                        minWT = 60;
+                        maxWT = 260;
+                        step = 2;
                       });
                     },
                     style: TextButton.styleFrom(
@@ -339,6 +347,10 @@ class __WeightSliderState extends State<_WeightSlider> {
                     onPressed: () {
                       setState(() {
                         selectedWeight = Weight.kg;
+                        _currentValue = 60;
+                        minWT = 20;
+                        maxWT = 120;
+                        step = 1;
                       });
                     },
                     style: TextButton.styleFrom(
@@ -361,9 +373,9 @@ class __WeightSliderState extends State<_WeightSlider> {
         ),
         NumberPicker(
             value: _currentValue,
-            minValue: 20,
-            maxValue: 160,
-            step: 1,
+            minValue: minWT,
+            maxValue: maxWT,
+            step: step,
             itemCount: 5,
             itemWidth: 75,
             itemHeight: 45,
