@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'main.dart';
 
 class DatePickerPage extends StatefulWidget {
   @override
@@ -35,8 +36,10 @@ class _DatePickerPageState extends State<DatePickerPage> {
             maximumYear: DateTime.now().year,
             initialDateTime: dateTime,
             mode: CupertinoDatePickerMode.date,
-            onDateTimeChanged: (dateTime) =>
-                setState(() => this.dateTime = dateTime),
+            onDateTimeChanged: (dateTime) => setState(() {
+              this.dateTime = dateTime;
+              dt = dateTime;
+            }),
           ),
         ),
       );

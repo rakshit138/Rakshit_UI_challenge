@@ -1,7 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:ui_challenge/constants.dart';
 import 'datePicker.dart';
+import 'DialogBox.dart';
+
+DateTime dt = DateTime.now();
+int wt = 50;
+int ht = 160;
+
+enum Height {
+  feet,
+  cm,
+}
+
+enum Weight {
+  pound,
+  kg,
+}
 
 void main() {
   runApp(new ExampleApp());
@@ -12,8 +29,13 @@ class ExampleApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'About ME',
-      theme:
-          ThemeData(primarySwatch: Colors.red, backgroundColor: Colors.white),
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+        scaffoldBackgroundColor: Colors.white,
+        textTheme: GoogleFonts.latoTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
       home: MyHomePage(),
     );
   }
@@ -40,48 +62,48 @@ class _MyHomePageState extends State<MyHomePage> {
           color: Colors.red,
         ),
       ),
-      body: SafeArea(
-        child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 30),
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Text(
-                      'DOB',
-                      style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500),
-                    ),
+      body: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              Padding(
+                padding: EdgeInsets.only(left: 30),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    'DOB',
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500),
                   ),
                 ),
-                DatePickerPage(),
-                _HeightSlider(),
-                _WeightSlider(),
-                Icon(
-                  Icons.arrow_drop_up_sharp,
-                  color: Colors.red,
-                  size: 75,
-                ),
-              ]),
-              Container(
-                margin: EdgeInsets.all(15),
-                height: 45,
-                padding: EdgeInsets.symmetric(horizontal: 40),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10), color: Colors.red),
-                child: TextButton(
-                  onPressed: () {},
-                  child: Text('CONFIRM',
-                      style: TextStyle(fontSize: 20, color: Colors.white)),
-                ),
+              ),
+              DatePickerPage(),
+              _HeightSlider(),
+              _WeightSlider(),
+              Icon(
+                Icons.arrow_drop_up_sharp,
+                color: Colors.red,
+                size: 75,
               ),
             ]),
-      ),
+            Container(
+              margin: EdgeInsets.all(15),
+              height: 45,
+              padding: EdgeInsets.symmetric(horizontal: 40),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10), color: Colors.red),
+              child: TextButton(
+                onPressed: () {
+                  showAlertDialog(context);
+                },
+                child: Text('CONFIRM',
+                    style: TextStyle(fontSize: 20, color: Colors.white)),
+              ),
+            ),
+          ]),
     );
   }
 }
@@ -94,32 +116,68 @@ class _HeightSlider extends StatefulWidget {
 }
 
 class __HeightSliderState extends State<_HeightSlider> {
+  Height selectedHeight = Height.cm;
   int _currentHorizontalIntValue = 150;
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
+      children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
               'Height',
-              style: TextStyle(
-                  color: Colors.red, fontSize: 20, fontWeight: FontWeight.w500),
+              style: kTitleTextStyle,
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              //    child: ReusableCard(
+              //      onPress: () {
+              //        setState(() {
+              //          selectedHeight = Height.feet;
+              //        });
+              //      },
+              //      colour: selectedHeight == Height.feet
+              //          ? kActiveCardColour
+              //          : kInactiveCardColour,
+              //      cardChild: Text(
+              //        'Feet',
+              //      ),
+              //    ),
+
               Container(
                 height: 35,
                 margin: EdgeInsets.all(10),
                 padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20), color: Colors.red),
-                child: TextButton(
-                  onPressed: null,
-                  child: Text(
-                    'Feet',
-                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  border: Border.all(
+                    color: selectedHeight == Height.feet
+                        ? kActiveCardColour
+                        : Colors.grey,
                   ),
+                  borderRadius: BorderRadius.circular(20),
+                  color: selectedHeight == Height.feet
+                      ? kActiveCardColour
+                      : kInactiveCardColour,
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedHeight = Height.feet;
+                    });
+                  },
+                  style: TextButton.styleFrom(
+                    primary: selectedHeight == Height.feet
+                        ? kActiveCardColour
+                        : kInactiveCardColour,
+                  ),
+                  child: Text('feet',
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        color: selectedHeight == Height.feet
+                            ? kInactiveCardColour
+                            : kActiveCardColour,
+                      ) //kLabelTextStyle,
+                      ),
                 ),
               ),
               Container(
@@ -127,13 +185,34 @@ class __HeightSliderState extends State<_HeightSlider> {
                 margin: EdgeInsets.all(10),
                 padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20), color: Colors.red),
-                child: TextButton(
-                  onPressed: null,
-                  child: Text(
-                    'CM',
-                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  border: Border.all(
+                    color: selectedHeight == Height.cm
+                        ? kActiveCardColour
+                        : Colors.grey,
                   ),
+                  borderRadius: BorderRadius.circular(20),
+                  color: selectedHeight == Height.cm
+                      ? kActiveCardColour
+                      : kInactiveCardColour,
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedHeight = Height.cm;
+                    });
+                  },
+                  style: TextButton.styleFrom(
+                    primary: selectedHeight == Height.cm
+                        ? kActiveCardColour
+                        : kInactiveCardColour,
+                  ),
+                  child: Text('cm',
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        color: selectedHeight == Height.cm
+                            ? kInactiveCardColour
+                            : kActiveCardColour,
+                      )),
                 ),
               ),
             ])
@@ -144,72 +223,25 @@ class __HeightSliderState extends State<_HeightSlider> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
-                alignment: Alignment.topCenter,
-                color: Colors.black45,
-                height: 10,
-                width: 2,
-              ),
-              Container(
-                alignment: Alignment.topCenter,
-                color: Colors.black45,
-                height: 10,
-                width: 2,
-              ),
-              Container(
-                alignment: Alignment.topCenter,
-                color: Colors.black45,
-                height: 20,
-                width: 2,
-              ),
-              Container(
-                alignment: Alignment.topCenter,
-                color: Colors.black45,
-                height: 10,
-                width: 2,
-              ),
-              Container(
-                alignment: Alignment.topCenter,
-                color: Colors.black45,
-                height: 10,
-                width: 2,
-              ),
-              Container(
-                alignment: Alignment.topCenter,
-                color: Colors.red,
-                height: 30,
-                width: 2,
-              ),
-              Container(
-                alignment: Alignment.topCenter,
-                color: Colors.black45,
-                height: 10,
-                width: 2,
-              ),
-              Container(
-                alignment: Alignment.topCenter,
-                color: Colors.black45,
-                height: 10,
-                width: 2,
-              ),
-              Container(
-                alignment: Alignment.topCenter,
-                color: Colors.black45,
-                height: 20,
-                width: 2,
-              ),
-              Container(
-                alignment: Alignment.topCenter,
-                color: Colors.black45,
-                height: 10,
-                width: 2,
-              ),
-              Container(
-                alignment: Alignment.topCenter,
-                color: Colors.black45,
-                height: 10,
-                width: 2,
-              ),
+              tick1,
+              tick1,
+              tick1,
+              tick1,
+              tick2,
+              tick1,
+              tick1,
+              tick1,
+              tick1,
+              tick3,
+              tick1,
+              tick1,
+              tick1,
+              tick1,
+              tick2,
+              tick1,
+              tick1,
+              tick1,
+              tick1
             ],
           ),
         ),
@@ -224,7 +256,10 @@ class __HeightSliderState extends State<_HeightSlider> {
             textStyle: TextStyle(fontSize: 15, color: Colors.grey),
             axis: Axis.horizontal,
             onChanged: (value) {
-              setState(() => _currentHorizontalIntValue = value);
+              setState(() {
+                _currentHorizontalIntValue = value;
+                ht = value;
+              });
               // print(_currentHorizontalIntValue);
             }),
       ],
@@ -240,6 +275,7 @@ class _WeightSlider extends StatefulWidget {
 }
 
 class __WeightSliderState extends State<_WeightSlider> {
+  Weight selectedWeight = Weight.kg;
   int _currentValue = 75;
   @override
   Widget build(BuildContext context) {
@@ -252,8 +288,7 @@ class __WeightSliderState extends State<_WeightSlider> {
           children: [
             Text(
               'Weight',
-              style: TextStyle(
-                  color: Colors.red, fontSize: 20, fontWeight: FontWeight.w500),
+              style: kTitleTextStyle,
             ),
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
               Container(
@@ -261,27 +296,68 @@ class __WeightSliderState extends State<_WeightSlider> {
                 margin: EdgeInsets.all(10),
                 padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20), color: Colors.red),
-                child: TextButton(
-                  onPressed: null,
-                  child: Text(
-                    'Pound',
-                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  border: Border.all(
+                    color: selectedWeight == Weight.pound
+                        ? kActiveCardColour
+                        : Colors.grey,
                   ),
+                  borderRadius: BorderRadius.circular(20),
+                  color: selectedWeight == Weight.pound
+                      ? kActiveCardColour
+                      : kInactiveCardColour,
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedWeight = Weight.pound;
+                    });
+                  },
+                  style: TextButton.styleFrom(
+                    primary: selectedWeight == Weight.pound
+                        ? kActiveCardColour
+                        : kInactiveCardColour,
+                  ),
+                  child: Text('Pound',
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        color: selectedWeight == Weight.pound
+                            ? kInactiveCardColour
+                            : kActiveCardColour,
+                      )),
                 ),
               ),
               Container(
                 height: 35,
                 margin: EdgeInsets.all(10),
-                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                padding: EdgeInsets.symmetric(horizontal: 10),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20), color: Colors.red),
-                child: TextButton(
-                  onPressed: null,
-                  child: Text(
-                    'KG',
-                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  border: Border.all(
+                    color: selectedWeight == Weight.kg
+                        ? kActiveCardColour
+                        : Colors.grey,
                   ),
+                  borderRadius: BorderRadius.circular(20),
+                  color:
+                      selectedWeight == Weight.kg ? Colors.red : Colors.white,
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedWeight = Weight.kg;
+                    });
+                  },
+                  style: TextButton.styleFrom(
+                    primary: selectedWeight == Weight.kg
+                        ? kActiveCardColour
+                        : kInactiveCardColour,
+                  ),
+                  child: Text('KG',
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        color: selectedWeight == Weight.kg
+                            ? kInactiveCardColour
+                            : kActiveCardColour,
+                      )),
                 ),
               ),
             ])
@@ -290,7 +366,7 @@ class __WeightSliderState extends State<_WeightSlider> {
         NumberPicker(
             value: _currentValue,
             minValue: 20,
-            maxValue: 120,
+            maxValue: 160,
             step: 1,
             itemCount: 5,
             itemWidth: 75,
@@ -298,7 +374,10 @@ class __WeightSliderState extends State<_WeightSlider> {
             textStyle: TextStyle(fontSize: 15, color: Colors.grey),
             axis: Axis.horizontal,
             onChanged: (value) {
-              setState(() => _currentValue = value);
+              setState(() {
+                _currentValue = value;
+                wt = value;
+              });
               //print(_currentValue);
             }),
       ],
