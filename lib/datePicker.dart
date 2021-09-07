@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'constants.dart';
 import 'main.dart';
 
 class DatePickerPage extends StatefulWidget {
@@ -21,17 +22,15 @@ class _DatePickerPageState extends State<DatePickerPage> {
         child: CupertinoTheme(
           data: CupertinoThemeData(
             textTheme: CupertinoTextThemeData(
-              primaryColor: CupertinoColors.systemGreen,
-              pickerTextStyle: TextStyle(color: Colors.grey),
-              tabLabelTextStyle: TextStyle(color: Colors.grey),
               dateTimePickerTextStyle: TextStyle(
-                color: Colors.red,
-                fontSize: 24,
+                letterSpacing: 2,
+                color: kActiveCardColour,
+                fontSize: 20,
               ),
             ),
           ),
           child: CupertinoDatePicker(
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.transparent,
             minimumYear: 1950,
             maximumYear: DateTime.now().year,
             initialDateTime: dateTime,

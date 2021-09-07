@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-const kActiveCardColour = Colors.red;
+const kActiveCardColour = Color(0XFFFF5A5A);
 const kInactiveCardColour = Colors.white;
 
 const kTitleTextStyle = TextStyle(
-  color: Colors.red,
+  color: Color(0XFFFF5A5A),
   fontSize: 20,
-  fontWeight: FontWeight.w500,
+  fontWeight: FontWeight.bold,
 );
 
 Container tick1 = Container(
