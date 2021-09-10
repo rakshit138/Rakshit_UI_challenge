@@ -75,41 +75,51 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
           mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                    'DOB',
-                    style: kTitleTextStyle,
+            Expanded(
+              flex: 3,
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Text(
+                      'DOB',
+                      style: kTitleTextStyle,
+                    ),
                   ),
                 ),
-              ),
-              DatePickerPage(),
-              _HeightSlider(),
-              _WeightSlider(),
-              Icon(
-                Icons.arrow_drop_up_sharp,
-                color: Color(0XFFFF5A5A),
-                size: 75,
-              ),
-            ]),
-            Container(
-              margin: EdgeInsets.all(15),
-              height: 45,
-              padding: EdgeInsets.symmetric(horizontal: 40),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: kActiveCardColour),
-              child: TextButton(
-                onPressed: () {
-                  showAlertDialog(context);
-                },
-                child: Text('CONFIRM',
-                    style: TextStyle(fontSize: 20, color: Colors.white)),
+                Expanded(flex: 0, child: DatePickerPage()),
+                Expanded(flex: 0, child: _HeightSlider()),
+                Expanded(flex: 0, child: _WeightSlider()),
+                Expanded(
+                  flex: 0,
+                  child: Icon(
+                    Icons.arrow_drop_up_sharp,
+                    color: Color(0XFFFF5A5A),
+                    size: 75,
+                  ),
+                ),
+              ]),
+            ),
+            Expanded(
+              flex: 0,
+              child: Container(
+                margin: EdgeInsets.all(15),
+                height: 45,
+                padding: EdgeInsets.symmetric(horizontal: 40),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: kActiveCardColour),
+                child: TextButton(
+                  onPressed: () {
+                    showAlertDialog(context);
+                  },
+                  child: Text('CONFIRM',
+                      style: TextStyle(fontSize: 20, color: Colors.white)),
+                ),
               ),
             ),
           ]),
